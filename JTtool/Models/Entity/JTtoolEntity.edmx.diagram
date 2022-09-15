@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="191a048c7c0f48b8bcad6266d706c428" Name="Diagram1">
+        <EntityTypeShape EntityType="JTtoolDBModel.Account" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="JTtoolDBModel.AccountGroup" Width="1.5" PointX="0.75" PointY="2.5" />
+        <EntityTypeShape EntityType="JTtoolDBModel.Expenditure" Width="1.5" PointX="5.25" PointY="1.375" />
+        <EntityTypeShape EntityType="JTtoolDBModel.ExpenditureShare" Width="1.5" PointX="7.5" PointY="2.375" />
+        <EntityTypeShape EntityType="JTtoolDBModel.Parameter" Width="1.5" PointX="0.75" PointY="6.75" />
+        <AssociationConnector Association="JTtoolDBModel.FK_Account_Id_Account_Creator" />
+        <AssociationConnector Association="JTtoolDBModel.FK_Account_Id_Account_Editor" />
+        <AssociationConnector Association="JTtoolDBModel.FK_Account_Id_Expenditure_Account_Editor" />
+        <AssociationConnector Association="JTtoolDBModel.FK_Account_Id_Expenditure_Creator" />
+        <AssociationConnector Association="JTtoolDBModel.FK_Account_Id_Expenditure_Payer" />
+        <AssociationConnector Association="JTtoolDBModel.FK_Account_Id_ExpenditureShare_AccountId" />
+        <AssociationConnector Association="JTtoolDBModel.FK_AccountGroup_ID_Account_AccountGroupID" />
+        <AssociationConnector Association="JTtoolDBModel.FK_Expenditure_Id_ExpenditureShare_ExpenditureId" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

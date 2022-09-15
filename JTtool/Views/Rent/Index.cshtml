@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "房租";
+}
+<script src="~/Scripts/Views/Rent_Index.js"></script>
+<link href="~/Content/Views/Rent_Index.css" rel="stylesheet" />
+
+<input type="hidden" id="AId" value="@ViewBag.AId">
+<div class="row m-0 bg-white fixed-top">
+    <div class="row m-0 pt-4 pb-2 invisible">
+        <div class="col-12 col-md-7 col-lg-5">
+            <div class="input-group">
+                <input type="text" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="row m-0 pb-2 invisible">
+        <div class="col-12 col-md-7 col-lg-5">
+            <div class="input-group">
+                <input type="text" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="row m-0 pb-4 invisible">
+        <div class="col-12 col-md-7 col-lg-5">
+            <div class="input-group">
+                <input type="text" class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row bg-info bg-opacity-50 fixed-top m-0">
+    <div class="row justify-content-center m-0 pt-4 pb-2">
+        <div class="col-12 col-md-7 col-lg-5">
+            <div class="input-group">
+                <span class="input-group-text">月份</span>
+                <input type="text" id="YYMM" class="form-control text-center" />
+                <span class="input-group-text">月</span>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center m-0 pb-2">
+        <div class="col-12 col-md-7 col-lg-5">
+            <div class="input-group">
+                <span class="input-group-text">應付</span>
+                <input type="text" id="Payable" class="form-control text-center" readonly value="-" />
+                <span class="input-group-text">元</span>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center m-0 pb-4">
+        <div class="col-12 col-md-7 col-lg-5">
+            <div class="input-group">
+                <span class="input-group-text">實付</span>
+                <input type="text" id="Paid" class="form-control text-center" readonly value="-" />
+                <span class="input-group-text">元</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row m-0 invisible">
+    <div class="row m-0 pt-4 pb-2">
+        <div class="col-12 col-md-7 col-lg-5">
+            <div class="input-group">
+                <input type="text" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="row m-0 pb-2">
+        <div class="col-12 col-md-7 col-lg-5">
+            <div class="input-group">
+                <input type="text" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="row m-0 pb-4">
+        <div class="col-12 col-md-7 col-lg-5">
+            <div class="input-group">
+                <input type="text" class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-12 col-md-9 col-lg-6 mt-4">
+            <div class="accordion" id="RentAccordion">
+                
+            </div>
+        </div>
+</div>

@@ -1,0 +1,500 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="JTtoolDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoginId" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Hash" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Salt" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="AccountGroupId" Type="nvarchar" MaxLength="10" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Creator" Type="smallint" Nullable="false" />
+          <Property Name="CreateDatetime" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="smallint" />
+          <Property Name="EditDatetime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="AccountGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Expenditure">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Payer" Type="smallint" Nullable="false" />
+          <Property Name="ExpenseDate" Type="datetime" Nullable="false" />
+          <Property Name="Item" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="IsInstallment" Type="bit" Nullable="false" />
+          <Property Name="Periods" Type="tinyint" Nullable="false" />
+          <Property Name="IsAlways" Type="bit" Nullable="false" />
+          <Property Name="Creator" Type="smallint" Nullable="false" />
+          <Property Name="CreateDatetime" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="smallint" />
+          <Property Name="EditDatetime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ExpenditureShare">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExpenditureId" Type="int" Nullable="false" />
+          <Property Name="AccountId" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parameter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Group" Type="nvarchar" MaxLength="20" />
+          <Property Name="Key" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Account_Id_Account_Creator">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Account1" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Account1">
+              <PropertyRef Name="Creator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Account_Id_Account_Editor">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Account1" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Account1">
+              <PropertyRef Name="Editor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Account_Id_Expenditure_Account_Editor">
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Expenditure" Type="Self.Expenditure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Expenditure">
+              <PropertyRef Name="Editor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Account_Id_Expenditure_Creator">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Expenditure" Type="Self.Expenditure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Expenditure">
+              <PropertyRef Name="Creator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Account_Id_Expenditure_Payer">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Expenditure" Type="Self.Expenditure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Expenditure">
+              <PropertyRef Name="Payer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Account_Id_ExpenditureShare_AccountId">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="ExpenditureShare" Type="Self.ExpenditureShare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenditureShare">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountGroup_ID_Account_AccountGroupID">
+          <End Role="AccountGroup" Type="Self.AccountGroup" Multiplicity="0..1" />
+          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="AccountGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Expenditure_Id_ExpenditureShare_ExpenditureId">
+          <End Role="Expenditure" Type="Self.Expenditure" Multiplicity="1" />
+          <End Role="ExpenditureShare" Type="Self.ExpenditureShare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expenditure">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenditureShare">
+              <PropertyRef Name="ExpenditureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="JTtoolDBModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccountGroup" EntityType="Self.AccountGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Expenditure" EntityType="Self.Expenditure" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenditureShare" EntityType="Self.ExpenditureShare" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parameter" EntityType="Self.Parameter" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Account_Id_Account_Creator" Association="Self.FK_Account_Id_Account_Creator">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Account1" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Account_Id_Account_Editor" Association="Self.FK_Account_Id_Account_Editor">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Account1" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Account_Id_Expenditure_Account_Editor" Association="Self.FK_Account_Id_Expenditure_Account_Editor">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Expenditure" EntitySet="Expenditure" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Account_Id_Expenditure_Creator" Association="Self.FK_Account_Id_Expenditure_Creator">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Expenditure" EntitySet="Expenditure" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Account_Id_Expenditure_Payer" Association="Self.FK_Account_Id_Expenditure_Payer">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Expenditure" EntitySet="Expenditure" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Account_Id_ExpenditureShare_AccountId" Association="Self.FK_Account_Id_ExpenditureShare_AccountId">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="ExpenditureShare" EntitySet="ExpenditureShare" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountGroup_ID_Account_AccountGroupID" Association="Self.FK_AccountGroup_ID_Account_AccountGroupID">
+            <End Role="AccountGroup" EntitySet="AccountGroup" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Expenditure_Id_ExpenditureShare_ExpenditureId" Association="Self.FK_Expenditure_Id_ExpenditureShare_ExpenditureId">
+            <End Role="Expenditure" EntitySet="Expenditure" />
+            <End Role="ExpenditureShare" EntitySet="ExpenditureShare" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="JTtoolDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="JTtoolDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Account" EntityType="JTtoolDBModel.Account" />
+          <EntitySet Name="AccountGroup" EntityType="JTtoolDBModel.AccountGroup" />
+          <EntitySet Name="Expenditure" EntityType="JTtoolDBModel.Expenditure" />
+          <EntitySet Name="ExpenditureShare" EntityType="JTtoolDBModel.ExpenditureShare" />
+          <EntitySet Name="Parameter" EntityType="JTtoolDBModel.Parameter" />
+          <AssociationSet Name="FK_Account_Id_Account_Creator" Association="JTtoolDBModel.FK_Account_Id_Account_Creator">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Account1" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Account_Id_Account_Editor" Association="JTtoolDBModel.FK_Account_Id_Account_Editor">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Account1" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Account_Id_Expenditure_Account_Editor" Association="JTtoolDBModel.FK_Account_Id_Expenditure_Account_Editor">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Expenditure" EntitySet="Expenditure" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Account_Id_Expenditure_Creator" Association="JTtoolDBModel.FK_Account_Id_Expenditure_Creator">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Expenditure" EntitySet="Expenditure" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Account_Id_Expenditure_Payer" Association="JTtoolDBModel.FK_Account_Id_Expenditure_Payer">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Expenditure" EntitySet="Expenditure" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Account_Id_ExpenditureShare_AccountId" Association="JTtoolDBModel.FK_Account_Id_ExpenditureShare_AccountId">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="ExpenditureShare" EntitySet="ExpenditureShare" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountGroup_ID_Account_AccountGroupID" Association="JTtoolDBModel.FK_AccountGroup_ID_Account_AccountGroupID">
+            <End Role="AccountGroup" EntitySet="AccountGroup" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Expenditure_Id_ExpenditureShare_ExpenditureId" Association="JTtoolDBModel.FK_Expenditure_Id_ExpenditureShare_ExpenditureId">
+            <End Role="Expenditure" EntitySet="Expenditure" />
+            <End Role="ExpenditureShare" EntitySet="ExpenditureShare" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoginId" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Hash" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Salt" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="AccountGroupId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Creator" Type="Int16" Nullable="false" />
+          <Property Name="CreateDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="Int16" />
+          <Property Name="EditDatetime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Account1" Relationship="JTtoolDBModel.FK_Account_Id_Account_Creator" FromRole="Account" ToRole="Account1" />
+          <NavigationProperty Name="Account2" Relationship="JTtoolDBModel.FK_Account_Id_Account_Creator" FromRole="Account1" ToRole="Account" />
+          <NavigationProperty Name="Account11" Relationship="JTtoolDBModel.FK_Account_Id_Account_Editor" FromRole="Account" ToRole="Account1" />
+          <NavigationProperty Name="Account3" Relationship="JTtoolDBModel.FK_Account_Id_Account_Editor" FromRole="Account1" ToRole="Account" />
+          <NavigationProperty Name="Expenditure" Relationship="JTtoolDBModel.FK_Account_Id_Expenditure_Account_Editor" FromRole="Account" ToRole="Expenditure" />
+          <NavigationProperty Name="Expenditure1" Relationship="JTtoolDBModel.FK_Account_Id_Expenditure_Creator" FromRole="Account" ToRole="Expenditure" />
+          <NavigationProperty Name="Expenditure2" Relationship="JTtoolDBModel.FK_Account_Id_Expenditure_Payer" FromRole="Account" ToRole="Expenditure" />
+          <NavigationProperty Name="ExpenditureShare" Relationship="JTtoolDBModel.FK_Account_Id_ExpenditureShare_AccountId" FromRole="Account" ToRole="ExpenditureShare" />
+          <NavigationProperty Name="AccountGroup" Relationship="JTtoolDBModel.FK_AccountGroup_ID_Account_AccountGroupID" FromRole="Account" ToRole="AccountGroup" />
+        </EntityType>
+        <EntityType Name="AccountGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Account" Relationship="JTtoolDBModel.FK_AccountGroup_ID_Account_AccountGroupID" FromRole="AccountGroup" ToRole="Account" />
+        </EntityType>
+        <EntityType Name="Expenditure">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Payer" Type="Int16" Nullable="false" />
+          <Property Name="ExpenseDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Item" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="IsInstallment" Type="Boolean" Nullable="false" />
+          <Property Name="Periods" Type="Byte" Nullable="false" />
+          <Property Name="IsAlways" Type="Boolean" Nullable="false" />
+          <Property Name="Creator" Type="Int16" Nullable="false" />
+          <Property Name="CreateDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="Int16" />
+          <Property Name="EditDatetime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Account" Relationship="JTtoolDBModel.FK_Account_Id_Expenditure_Account_Editor" FromRole="Expenditure" ToRole="Account" />
+          <NavigationProperty Name="Account1" Relationship="JTtoolDBModel.FK_Account_Id_Expenditure_Creator" FromRole="Expenditure" ToRole="Account" />
+          <NavigationProperty Name="Account2" Relationship="JTtoolDBModel.FK_Account_Id_Expenditure_Payer" FromRole="Expenditure" ToRole="Account" />
+          <NavigationProperty Name="ExpenditureShare" Relationship="JTtoolDBModel.FK_Expenditure_Id_ExpenditureShare_ExpenditureId" FromRole="Expenditure" ToRole="ExpenditureShare" />
+        </EntityType>
+        <EntityType Name="ExpenditureShare">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExpenditureId" Type="Int32" Nullable="false" />
+          <Property Name="AccountId" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="JTtoolDBModel.FK_Account_Id_ExpenditureShare_AccountId" FromRole="ExpenditureShare" ToRole="Account" />
+          <NavigationProperty Name="Expenditure" Relationship="JTtoolDBModel.FK_Expenditure_Id_ExpenditureShare_ExpenditureId" FromRole="ExpenditureShare" ToRole="Expenditure" />
+        </EntityType>
+        <EntityType Name="Parameter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Group" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Key" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Account_Id_Account_Creator">
+          <End Type="JTtoolDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="JTtoolDBModel.Account" Role="Account1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Account1">
+              <PropertyRef Name="Creator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Account_Id_Account_Editor">
+          <End Type="JTtoolDBModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="JTtoolDBModel.Account" Role="Account1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Account1">
+              <PropertyRef Name="Editor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Account_Id_Expenditure_Account_Editor">
+          <End Type="JTtoolDBModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="JTtoolDBModel.Expenditure" Role="Expenditure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Expenditure">
+              <PropertyRef Name="Editor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Account_Id_Expenditure_Creator">
+          <End Type="JTtoolDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="JTtoolDBModel.Expenditure" Role="Expenditure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Expenditure">
+              <PropertyRef Name="Creator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Account_Id_Expenditure_Payer">
+          <End Type="JTtoolDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="JTtoolDBModel.Expenditure" Role="Expenditure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Expenditure">
+              <PropertyRef Name="Payer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Account_Id_ExpenditureShare_AccountId">
+          <End Type="JTtoolDBModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="JTtoolDBModel.ExpenditureShare" Role="ExpenditureShare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenditureShare">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountGroup_ID_Account_AccountGroupID">
+          <End Type="JTtoolDBModel.AccountGroup" Role="AccountGroup" Multiplicity="0..1" />
+          <End Type="JTtoolDBModel.Account" Role="Account" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccountGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="AccountGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Expenditure_Id_ExpenditureShare_ExpenditureId">
+          <End Type="JTtoolDBModel.Expenditure" Role="Expenditure" Multiplicity="1" />
+          <End Type="JTtoolDBModel.ExpenditureShare" Role="ExpenditureShare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expenditure">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenditureShare">
+              <PropertyRef Name="ExpenditureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="JTtoolDBModelStoreContainer" CdmEntityContainer="JTtoolDBEntities">
+          <EntitySetMapping Name="Account">
+            <EntityTypeMapping TypeName="JTtoolDBModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="EditDatetime" ColumnName="EditDatetime" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="CreateDatetime" ColumnName="CreateDatetime" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AccountGroupId" ColumnName="AccountGroupId" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Hash" ColumnName="Hash" />
+                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountGroup">
+            <EntityTypeMapping TypeName="JTtoolDBModel.AccountGroup">
+              <MappingFragment StoreEntitySet="AccountGroup">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Expenditure">
+            <EntityTypeMapping TypeName="JTtoolDBModel.Expenditure">
+              <MappingFragment StoreEntitySet="Expenditure">
+                <ScalarProperty Name="EditDatetime" ColumnName="EditDatetime" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="CreateDatetime" ColumnName="CreateDatetime" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
+                <ScalarProperty Name="IsAlways" ColumnName="IsAlways" />
+                <ScalarProperty Name="Periods" ColumnName="Periods" />
+                <ScalarProperty Name="IsInstallment" ColumnName="IsInstallment" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Item" ColumnName="Item" />
+                <ScalarProperty Name="ExpenseDate" ColumnName="ExpenseDate" />
+                <ScalarProperty Name="Payer" ColumnName="Payer" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenditureShare">
+            <EntityTypeMapping TypeName="JTtoolDBModel.ExpenditureShare">
+              <MappingFragment StoreEntitySet="ExpenditureShare">
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="ExpenditureId" ColumnName="ExpenditureId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parameter">
+            <EntityTypeMapping TypeName="JTtoolDBModel.Parameter">
+              <MappingFragment StoreEntitySet="Parameter">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

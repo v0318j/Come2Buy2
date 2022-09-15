@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - JTtool</title>
+
+    <script src="~/Scripts/jquery/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker/bootstrap-datepicker.zh-TW.js"></script>
+
+    <script src="~/Scripts/common.js"></script>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />
+</head>
+<body>
+    @if (!ViewBag.Title.Equals("首頁"))
+    {
+        @*<div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("應用程式名稱", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("關於", "About", "Home")</li>
+                        <li>@Html.ActionLink("連絡人", "Contact", "Home")</li>
+                    </ul>
+                </div>
+            </div>
+        </div>*@
+    }
+    <input type="hidden" id="BaseUrl" value="@Url.Action("","")" />
+    <div class="container body-content">
+        @RenderBody()
+        @*<hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
+            </footer>*@
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -8,3 +8,9 @@
     right: 3%;
     bottom: 3%;
 }
+
+.fixed-bottom-right {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}

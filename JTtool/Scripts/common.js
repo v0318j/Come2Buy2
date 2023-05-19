@@ -25,7 +25,3 @@ function removeBanner() {
         }
     }
 }
-
-function GetFullUrl(action) {
-    return $('#BaseUrl').val() + action;
-}

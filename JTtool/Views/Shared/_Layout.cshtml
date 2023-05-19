@@ -16,6 +16,9 @@
 
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />
+
+    <link href="~/Content/fontawesome.min.css" rel="stylesheet" />
+    <script src="~/Scripts/fontawesome/fontawesome.min.js"></script>
 </head>
 <body>
     @if (!ViewBag.Title.Equals("首頁"))
@@ -40,13 +43,8 @@
             </div>
         </div>*@
     }
-    <input type="hidden" id="BaseUrl" value="@Url.Action("","")" />
     <div class="container body-content">
         @RenderBody()
-        @*<hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
-            </footer>*@
     </div>
 
     @RenderSection("scripts", required: false)

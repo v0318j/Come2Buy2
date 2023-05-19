@@ -1,3 +1,10 @@
 ﻿#GetRent {
     color: white
 }
+
+#addExpenditure {
+    z-index: 999;
+    position: fixed;
+    right: 3%;
+    bottom: 3%;
+}

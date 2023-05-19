@@ -28,7 +28,7 @@ namespace JTtool.Controllers
             {
                 try
                 {
-                    request.Password = AsymmetricEncryptionHelper.Encrypt(request.Password, ConfigurationManager.AppSettings["RSAKeyValue"]);
+                    //request.Password = AsymmetricEncryptionHelper.Encrypt(request.Password, ConfigurationManager.AppSettings["RSAKeyValue"]);
                     Session.Add(EnumType.Session.LoginAccount.ToString(), AccountService.Login(request));
                     return Json(new LoginResponse { Success = true, Message = ((AccountModel)Session[EnumType.Session.LoginAccount.ToString()]).Id.ToString(), Redirect = "Rent" });
                 }

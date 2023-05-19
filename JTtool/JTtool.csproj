@@ -125,6 +125,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account\AccountResponse.cs" />
     <Compile Include="Models\BaseResponse.cs" />
     <Compile Include="Models\Entity\Account.cs">
       <DependentUpon>JTtoolEntity.tt</DependentUpon>
@@ -159,13 +160,17 @@
     </Compile>
     <Compile Include="Models\Home\LoginRequest.cs" />
     <Compile Include="Models\Home\LoginResponse.cs" />
+    <Compile Include="Models\Rent\DeleteExpenditureRequest.cs" />
+    <Compile Include="Models\Rent\UpdateExpenditureRequest.cs" />
     <Compile Include="Models\Rent\GetRentDetailModel.cs" />
     <Compile Include="Models\Rent\AddExpenditureRequest.cs" />
     <Compile Include="Models\Rent\GetRentDetailResponse.cs" />
     <Compile Include="Models\Rent\GetRentDetailRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AsymmetricEncryptionHelper.cs" />
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\EnumType.cs" />
+    <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\RentService.cs" />
     <Compile Include="Services\HomeService.cs" />
   </ItemGroup>

@@ -1,4 +1,6 @@
 ﻿using JTtool.Controllers.Filter;
+using JTtool.Models.Entity;
+using JTtool.Models.Home;
 using JTtool.Models.Rent;
 using JTtool.Services;
 using System;
@@ -12,6 +14,7 @@ namespace JTtool.Controllers
     [CheckLogin]
     public class RentController : Controller
     {
+        AccountService AccountService = new AccountService();
         RentService RentService = new RentService();
         public ActionResult Index(short AId)
         {
@@ -64,6 +67,30 @@ namespace JTtool.Controllers
         {
             RentService.AddExpenditure(request);
             return Json("OK");
+        }
+
+        [HttpPost]
+        public JsonResult UpdateExpenditure(UpdateExpenditureRequest request)
+        {
+            RentService.UpdateExpenditure(request);
+            return Json("OK");
+        }
+
+        [HttpPost]
+        public JsonResult DeleteExpenditure(DeleteExpenditureRequest request)
+        {
+            RentService.DeleteExpenditure(request);
+            return Json("OK");
+        }
+
+        [HttpGet]
+        public ActionResult GetRentUsersExceptLoggedIn()
+        {
+            short loggedInUserId = ((AccountModel)Session[EnumType.Session.LoginAccount.ToString()]).Id;
+
+            IEnumerable<AccountResponse> rentUsers = AccountService.GetRentUsersExceptLoggedIn(loggedInUserId);
+
+            return Json(rentUsers, JsonRequestBehavior.AllowGet);
         }
     }
 }

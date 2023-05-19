@@ -9,15 +9,6 @@ namespace JTtool.Services
 {
     public class HomeService : BaseService
     {
-        public AccountModel Login(LoginRequest request) =>
-            db.Account.Where(i => i.AccountGroupId == EnumType.AccountGroup.Rent.ToString() && i.LoginId == request.LoginId)
-                .Select(i => new AccountModel
-                {
-                    Id = i.Id,
-                    LoginId = i.LoginId,
-                    Hash = i.Hash,
-                    Salt = i.Salt,
-                    Name = i.Name
-                }).Single();
+        
     }
 }

@@ -116,5 +116,63 @@ namespace JTtool.Services
             db.ExpenditureShare.AddRange(expenditureShare);
             db.SaveChanges();
         }
+        public void UpdateExpenditure(UpdateExpenditureRequest request)
+        {
+            // 取得要修改的支出項目
+            Expenditure expenditure = db.Expenditure.FirstOrDefault(e => e.Id == request.ExpenditureId);
+            if (expenditure == null)
+            {
+                // 支出項目不存在，可能需要採取相應的錯誤處理措施
+                return;
+            }
+
+            // 更新支出項目的屬性
+            expenditure.Payer = request.PayerId;
+            expenditure.ExpenseDate = request.ExpenseDate;
+            expenditure.Item = request.Item;
+            expenditure.Price = request.Price;
+            expenditure.IsInstallment = request.IsInstallment;
+            expenditure.Periods = request.Periods;
+            expenditure.IsAlways = request.IsAlways;
+
+            // 刪除原有的支出項目分享關係
+            List<ExpenditureShare> existingShares = db.ExpenditureShare.Where(es => es.ExpenditureId == request.ExpenditureId).ToList();
+            db.ExpenditureShare.RemoveRange(existingShares);
+
+            // 建立新的支出項目分享關係
+            List<ExpenditureShare> expenditureShares = new List<ExpenditureShare>();
+            foreach (short shareId in request.ShareIds)
+            {
+                expenditureShares.Add(new ExpenditureShare
+                {
+                    ExpenditureId = request.ExpenditureId,
+                    AccountId = shareId
+                });
+            }
+            db.ExpenditureShare.AddRange(expenditureShares);
+
+            // 儲存變更
+            db.SaveChanges();
+        }
+        public void DeleteExpenditure(DeleteExpenditureRequest request)
+        {
+            // 取得要刪除的支出項目
+            Expenditure expenditure = db.Expenditure.FirstOrDefault(e => e.Id == request.ExpenditureId);
+            if (expenditure == null)
+            {
+                // 支出項目不存在，可能需要採取相應的錯誤處理措施
+                return;
+            }
+
+            // 刪除支出項目分享關係s
+            List<ExpenditureShare> expenditureShares = db.ExpenditureShare.Where(es => es.ExpenditureId == request.ExpenditureId).ToList();
+            db.ExpenditureShare.RemoveRange(expenditureShares);
+
+            // 刪除支出項目
+            db.Expenditure.Remove(expenditure);
+
+            // 儲存變更
+            db.SaveChanges();
+        }
     }
 }

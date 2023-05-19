@@ -1,6 +1,7 @@
 ﻿using JTtool.Models.Entity;
 using JTtool.Models.Home;
 using JTtool.Services;
+using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
 
@@ -8,7 +9,7 @@ namespace JTtool.Controllers
 {
     public class HomeController : Controller
     {
-        HomeService HomeService = new HomeService();
+        AccountService AccountService = new AccountService();
 
         public ActionResult Index()
         {
@@ -27,7 +28,8 @@ namespace JTtool.Controllers
             {
                 try
                 {
-                    Session.Add(EnumType.Session.LoginAccount.ToString(), HomeService.Login(request));
+                    request.Password = AsymmetricEncryptionHelper.Encrypt(request.Password, ConfigurationManager.AppSettings["RSAKeyValue"]);
+                    Session.Add(EnumType.Session.LoginAccount.ToString(), AccountService.Login(request));
                     return Json(new LoginResponse { Success = true, Message = ((AccountModel)Session[EnumType.Session.LoginAccount.ToString()]).Id.ToString(), Redirect = "Rent" });
                 }
                 catch

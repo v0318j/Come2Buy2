@@ -15,7 +15,7 @@
 
 function GetRent() {
     $.ajax({
-        url: GetFullUrl('Rent/GetRentDetail'),
+        url: '/Rent/GetRentDetail',
         method: 'POST',
         data: {
             AId: $('#AId').val(),

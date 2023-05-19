@@ -6,7 +6,7 @@
 
 function Login() {
     $.ajax({
-        url: GetFullUrl('Home/Login'),
+        url: '/Home/Login',
         method: 'POST',
         data: {
             LoginId: $('#LoginId').val(),

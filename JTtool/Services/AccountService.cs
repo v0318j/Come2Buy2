@@ -7,6 +7,7 @@ using Antlr.Runtime.Tree;
 using JTtool.Models.Entity;
 using JTtool.Models.Home;
 using JTtool.Models.Rent;
+using JTtool.Services.Util;
 
 namespace JTtool.Services
 {
@@ -36,6 +37,15 @@ namespace JTtool.Services
                 LoginId = i.LoginId,
                 Name = i.Name
             });
+        }
+
+        public void ChangePassword(short accountId, string newPassword)
+        {
+            Account account = db.Account.Single(i => i.Id == accountId);
+
+            account.Password = newPassword;
+
+            db.SaveChanges();
         }
     }
 }

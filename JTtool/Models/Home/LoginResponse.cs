@@ -12,6 +12,5 @@ namespace JTtool.Models.Home
     public class LoginResponseData
     {
         public string Redirect { get; set; }
-        public short AId { get; set; }
     }
 }

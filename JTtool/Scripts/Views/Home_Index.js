@@ -12,11 +12,11 @@ function Login() {
             LoginId: $('#LoginId').val(),
             Password: $('#Password').val(),
         },
-        success: function (resault) {
-            if (resault.Success) {
-                location.href = resault.Data.Redirect + '?AId=' + resault.Data.AId;
+        success: function (result) {
+            if (result.Success) {
+                window.location.href = result.Data.Redirect;
             } else {
-                errorAlert(resault.Message);
+                errorAlert(result.Message);
             }
         },
         error: function () {

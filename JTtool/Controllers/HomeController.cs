@@ -31,8 +31,7 @@ namespace JTtool.Controllers
                 {
                     Data = new LoginResponseData
                     {
-                        Redirect = "Rent",
-                        AId = account.Id
+                        Redirect = "/Rent/Index?AId="+ account.Id
                     }
                 });
             }

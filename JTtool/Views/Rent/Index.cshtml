@@ -87,9 +87,11 @@
         </div>
     </div>
 </div>
-<button type="button" class="btn btn-success fixed-bottom-right" data-bs-toggle="modal" data-bs-target="#ExpenditureModal">
-    新增
+<button type="button" class="btn btn-success fixed-bottom-right rounded-circle" data-bs-toggle="modal" data-bs-target="#ExpenditureModal">
+    <i class="fas fa-plus"></i>
 </button>
+
+
 
 <div class="modal fade" id="ExpenditureModal" tabindex="-1" aria-labelledby="ExpenditureModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -99,7 +101,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉" id="closeExpenditureModal"></button>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="expenditureId"/>
+                <input type="hidden" id="expenditureId" />
                 <div class="mb-3">
                     <label for="payer" class="form-label">付款者</label>
                     <div id="payer" class="row"></div>
@@ -133,10 +135,10 @@
                     <label class="form-check-label" for="isAlways">是否永遠付款</label>
                 </div>
             </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="saveBtn">儲存</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveBtn">儲存</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
             </div>
+        </div>
     </div>
 </div>

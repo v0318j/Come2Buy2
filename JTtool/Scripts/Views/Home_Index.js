@@ -1,12 +1,6 @@
 ﻿$(function () {
     $('#Login').click(Login);
     $('#registerbtn').click(Register);
-    $('#LoginFrom').submit(function () {
-        $('#Login').click()
-    });
-    $('#RegisterFrom').submit(function () {
-        $('#registerbtn').click()
-    });
 });
 
 function Login() {

@@ -21,7 +21,7 @@ namespace JTtool.Controllers
         {
             if (AId == null || AId != LoggedInUserId)
             {
-                return Redirect("Home");
+                return Redirect("/Home/Index");
             }
             ViewBag.AId = AId;
             return View();

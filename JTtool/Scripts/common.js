@@ -25,3 +25,30 @@ function removeBanner() {
         }
     }
 }
+
+function errorAlert(text) {
+    Swal.fire({
+        icon: 'error',
+        text: text,
+    })
+}
+
+function successAlert(text) {
+    Swal.fire({
+        icon: 'success',
+        text: text,
+    })
+}
+
+function checkAlert(action,doIfConfirmed) {
+    Swal.fire({
+        icon: 'question',
+        title: '確定要' + action +'嗎？',
+        showCancelButton: true,
+        confirmButtonText: action,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            doIfConfirmed();
+        }
+    })
+}

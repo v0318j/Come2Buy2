@@ -7,6 +7,5 @@ namespace JTtool.Models.Rent
     public class DeleteExpenditureRequest
     {
         public int ExpenditureId { get; set; }
-
     }
 }

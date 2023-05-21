@@ -17,10 +17,15 @@ namespace JTtool.Controllers
 
         }
 
-        protected short LoggedInUserId => ((AccountModel)Session[EnumType.Session.LoginAccount.ToString()]).Id;
+        protected short? LoggedInUserId { get
+            {
+                return ((AccountModel)Session[EnumType.Session.LoginAccount.ToString()])?.Id;
+            }
+        } 
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            base.OnActionExecuting(filterContext);
             if (!filterContext.Controller.ViewData.ModelState.IsValid)
             {
                 filterContext.Result = new JsonResult

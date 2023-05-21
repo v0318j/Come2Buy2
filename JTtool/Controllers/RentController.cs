@@ -17,9 +17,9 @@ namespace JTtool.Controllers
     {
         AccountService AccountService = new AccountService();
         RentService RentService = new RentService();
-        public ActionResult Index(short AId)
+        public ActionResult Index(short? AId)
         {
-            if (AId != LoggedInUserId)
+            if (AId == null || AId != LoggedInUserId)
             {
                 return Redirect("Home");
             }
@@ -128,8 +128,17 @@ namespace JTtool.Controllers
         [HttpPost]
         public JsonResult DeleteExpenditure(DeleteExpenditureRequest request)
         {
-            RentService.DeleteExpenditure(request, LoggedInUserId);
-            return Json("OK");
+            BaseResponse<object> response = new BaseResponse<object>();
+            try
+            {
+                RentService.DeleteExpenditure(request, LoggedInUserId);
+            }
+            catch
+            {
+                response.Success = false;
+                response.Message = "刪除失敗";
+            }
+            return Json(response);
         }
 
         [HttpGet]

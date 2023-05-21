@@ -13,10 +13,10 @@ function Login() {
             Password: $('#Password').val(),
         },
         success: function (resault) {
-            if (!resault.Success) {
-                alert(resault.Message);
-            } else {
+            if (resault.Success) {
                 location.href = resault.Data.Redirect + '?AId=' + resault.Data.AId;
+            } else {
+                errorAlert(resault.Message);
             }
         },
         error: function () {

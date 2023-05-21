@@ -137,7 +137,7 @@ namespace JTtool.Services
             db.ExpenditureShare.AddRange(expenditureShare);
             db.SaveChanges();
         }
-        public void UpdateExpenditure(UpdateExpenditureRequest request, short loggedInUserId)
+        public void UpdateExpenditure(UpdateExpenditureRequest request, short? loggedInUserId)
         {
             // 取得要修改的支出項目
             Expenditure expenditure = db.Expenditure.FirstOrDefault(e => e.Id == request.ExpenditureId);
@@ -179,7 +179,7 @@ namespace JTtool.Services
             // 儲存變更
             db.SaveChanges();
         }
-        public void DeleteExpenditure(DeleteExpenditureRequest request, short loggedInUserId)
+        public void DeleteExpenditure(DeleteExpenditureRequest request, short? loggedInUserId)
         {
             // 取得要刪除的支出項目
             Expenditure expenditure = db.Expenditure.FirstOrDefault(e => e.Id == request.ExpenditureId);

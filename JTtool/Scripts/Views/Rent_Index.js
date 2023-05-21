@@ -49,16 +49,17 @@ function GetRent() {
             YYMM: $('#YYMM').val(),
         },
         success: function (resault) {
-            if (!resault.Success) {
-                alert(resault.Message);
-            } else {
+            if (resault.Success) {
                 $('#Payable').val(resault.Data.Rent);
                 $('#RentAccordion').html(GenerateRentAccordion(resault.Data.RentDetail));
                 $('.btn-update').click(GetExpenditure);
+                $('.btn-delete').click(DeleteExpenditure);
+            } else {
+                errorAlert(resault.Message);
             }
         },
         error: function () {
-
+            errorAlert('Error occurred while retrieving rent users.');
         }
     });
 }
@@ -90,9 +91,9 @@ function GenerateRentAccordion(RentDetail) {
         Accordion += '<div class="col-3 col-sm-2">';
         Accordion += '<div class="d-flex flex-column justify-content-center h-100">';
         if (item.Creator == $('#AId').val()) {
-            Accordion += '<button type="button" class="btn btn-sm btn-primary mb-2 btn-update" data-bs-toggle="modal" data-bs-target="#ExpenditureModal" data-expenditure-id="' + item.ExpenditureId + '"">修改</button>';
+            Accordion += '<button type="button" class="btn btn-sm btn-primary mb-2 btn-update" data-bs-toggle="modal" data-bs-target="#ExpenditureModal" data-expenditure-id="' + item.ExpenditureId + '">修改</button>';
             if (!item.IsAlways) {
-                Accordion += '<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-' + i + '">刪除</button>';
+                Accordion += '<button type="button" class="btn btn-sm btn-danger btn-delete" data-expenditure-id="' + item.ExpenditureId + '">刪除</button>';
             }
         }
         Accordion += '</div>';
@@ -130,11 +131,11 @@ function GetRentUsers() {
                     shareIdsContainer.append(checkbox);
                 });
             } else {
-                alert(result.Message);
+                errorAlert(result.Message);
             }
         },
         error: function () {
-            alert('Error occurred while retrieving rent users.');
+            errorAlert('Error occurred while retrieving rent users.');
         }
     });
 }
@@ -142,7 +143,7 @@ function GetRentUsers() {
 function saveExpenditure() {
     // 獲取表單資料
     var formData = {
-        Id: $('#expenditureId').val(),
+        ExpenditureId: $('#expenditureId').val(),
         PayerId: $('input[name="payer"]:checked').val() == undefined ? null : $('input[name="payer"]:checked').val(),
         ShareIds: $('input[name="shareIds"]:checked').map(function () {
             return $(this).val();
@@ -158,23 +159,25 @@ function saveExpenditure() {
 
     // 發送 AJAX POST 請求
     $.ajax({
-        url: $('#expenditureId').val() == undefined ? '/Rent/AddExpenditure' : '/Rent/UpdateExpenditure',
+        url: $('#expenditureId').val() == '' ? '/Rent/AddExpenditure' : '/Rent/UpdateExpenditure',
         method: 'POST',
         data: JSON.stringify(formData),
         contentType: 'application/json',
         success: function (response) {
             if (response.Success) {
                 // 新增成功，執行相應的操作
-                alert('儲存成功');
+                successAlert('儲存成功');
+                $('#closeExpenditureModal').click();
+                GetRent();
                 // 清除表單資料或重新載入頁面等
             } else {
                 // 新增失敗，顯示錯誤訊息
-                alert('' + response.Message);
+                errorAlert(response.Message);
             }
         },
         error: function () {
             // 請求失敗處理
-            alert('請求失敗');
+            errorAlert('請求失敗');
         }
     });
 }
@@ -212,18 +215,34 @@ function GetExpenditure() {
                     }
                 });
             } else {
-                alert(result.Message);
+                errorAlert(result.Message);
             }
         },
         error: function () {
-            alert('Error occurred while retrieving rent users.');
+            errorAlert('Error occurred while retrieving rent users.');
         }
     });
 }
 
-function formatDate(dateString) {
-    var timestamp = dateString.match(/\d+/)[0]; // 提取日期字串中的數字部分
-    var date = new Date(parseInt(dateString.match(/\d+/)[0])); // 解析日期
-    var formattedDate = date.toLocaleDateString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit' }); // 格式化日期為 'yyyy/MM/dd'
-    return formattedDate;
+function DeleteExpenditure() {
+    checkAlert('刪除', function () {
+        $.ajax({
+            url: '/Rent/DeleteExpenditure',
+            method: 'POST',
+            data: {
+                ExpenditureId: $(this).data('expenditure-id')
+            },
+            success: function (result) {
+                if (result.Success) {
+                    successAlert('刪除成功');
+                    GetRent();
+                } else {
+                    errorAlert(result.Message);
+                }
+            },
+            error: function () {
+                errorAlert('Error occurred while retrieving rent users.');
+            }
+        });
+    });
 }

@@ -7,7 +7,7 @@ namespace JTtool.Models.Rent
 {
     public class GetRentDetailModel
     {
-        public short AId { get; set; }
+        public short? AId { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }
     }

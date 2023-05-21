@@ -3,12 +3,42 @@
 }
 <script src="~/Scripts/Views/Home_Index.js"></script>
 
+<style>
+    /* 隱藏導覽列的 CSS */
+    .navbar {
+        display: none;
+    }
+</style>
+
 <div class="row">
     <div class="col-12 col-md-7 col-lg-5 position-absolute top-50 start-50 translate-middle">
-        <label for="LoginId" class="form-label">帳號</label>
-        <input type="text" class="form-control" id="LoginId" aria-describedby="emailHelp">
-        <label for="Password" class="form-label mt-4">密碼</label>
-        <input type="password" class="form-control" id="Password" aria-describedby="emailHelp">
-        <button type="button" class="btn btn-outline-info mt-4" id="Login">登入</button>
+        <form id="LoginForm">
+            <label for="LoginId" class="form-label">帳號</label>
+            <input type="text" class="form-control" id="LoginId" aria-describedby="emailHelp">
+            <label for="Password" class="form-label mt-4">密碼</label>
+            <input type="password" class="form-control" id="Password" aria-describedby="emailHelp">
+            <button type="submit" class="btn btn-outline-info mt-4" id="Login">登入</button>
+        </form>
     </div>
 </div>
+
+<script>
+    // 使用者按下 Enter 鍵時觸發登入操作
+    document.getElementById("LoginForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // 防止表單提交
+        login(); // 呼叫登入函式
+    });
+
+    // 登入函式
+    function login() {
+        var loginId = document.getElementById("LoginId").value;
+        var password = document.getElementById("Password").value;
+
+        // 執行登入操作
+        // 在這裡可以使用 JavaScript 或 Ajax 進行登入驗證
+
+        // 清空輸入框
+        document.getElementById("LoginId").value = "";
+        document.getElementById("Password").value = "";
+    }
+</script>

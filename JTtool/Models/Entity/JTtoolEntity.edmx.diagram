@@ -6,9 +6,9 @@
     <edmx:Diagrams>
       <Diagram DiagramId="191a048c7c0f48b8bcad6266d706c428" Name="Diagram1">
         <EntityTypeShape EntityType="JTtoolDBModel.Account" Width="1.5" PointX="3" PointY="1" />
-        <EntityTypeShape EntityType="JTtoolDBModel.AccountGroup" Width="1.5" PointX="0.75" PointY="2.5" />
-        <EntityTypeShape EntityType="JTtoolDBModel.Expenditure" Width="1.5" PointX="5.25" PointY="1.375" />
-        <EntityTypeShape EntityType="JTtoolDBModel.ExpenditureShare" Width="1.5" PointX="7.5" PointY="2.375" />
+        <EntityTypeShape EntityType="JTtoolDBModel.AccountGroup" Width="1.5" PointX="0.75" PointY="2.375" />
+        <EntityTypeShape EntityType="JTtoolDBModel.Expenditure" Width="1.5" PointX="5.25" PointY="1.25" />
+        <EntityTypeShape EntityType="JTtoolDBModel.ExpenditureShare" Width="1.5" PointX="7.5" PointY="2.25" />
         <EntityTypeShape EntityType="JTtoolDBModel.Parameter" Width="1.5" PointX="0.75" PointY="6.75" />
         <AssociationConnector Association="JTtoolDBModel.FK_Account_Id_Account_Creator" />
         <AssociationConnector Association="JTtoolDBModel.FK_Account_Id_Account_Editor" />

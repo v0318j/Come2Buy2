@@ -14,6 +14,7 @@ namespace JTtool.Models.Rent
 
     public class RentDetailModel
     {
+        public int ExpenditureId { get; set; }
         public string Payer { get; set; }  
         public string Item { get; set; }
         public int Price { get; set; }
@@ -22,10 +23,13 @@ namespace JTtool.Models.Rent
         public short Periods { get; set; }
         public string Names { get; set; }
         public double PayAmount { get; set; }
+        public bool IsAlways { get; set; }
+        public short Creator { get; set; }
     }
 
     public class RentDetailVeiwModel
     {
+        public int ExpenditureId {get; set; }
         public string Payer { get; set; }
         public string Item { get; set; }
         public string Price { get; set; }
@@ -34,5 +38,7 @@ namespace JTtool.Models.Rent
         public short Periods { get; set; }
         public string Names { get; set; }
         public string PayAmount { get; set; }
+        public bool IsAlways { get; set; }
+        public short Creator { get; set; }
     }
 }

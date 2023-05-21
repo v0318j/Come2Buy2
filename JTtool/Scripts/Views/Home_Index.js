@@ -16,7 +16,7 @@ function Login() {
             if (!resault.Success) {
                 alert(resault.Message);
             } else {
-                location.href = resault.Redirect + '?AId=' + resault.Message;
+                location.href = resault.Data.Redirect + '?AId=' + resault.Data.AId;
             }
         },
         error: function () {

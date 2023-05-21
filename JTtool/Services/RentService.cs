@@ -50,7 +50,9 @@ namespace JTtool.Services
                                              e.Price,
                                              e.ExpenseDate,
                                              e.IsInstallment,
-                                             e.Periods
+                                             e.Periods,
+                                             e.IsAlways,
+                                             e.Creator
                                          }).ToList()
                               join s in (from e in expenditure
                                          join es in db.ExpenditureShare on e.Id equals es.ExpenditureId
@@ -74,6 +76,7 @@ namespace JTtool.Services
                               orderby e.ExpenseDate descending
                               select new RentDetailModel
                               {
+                                  ExpenditureId = e.Id,
                                   Payer = e.Payer,
                                   Item = e.Item,
                                   Price = e.Price,
@@ -81,10 +84,28 @@ namespace JTtool.Services
                                   IsInstallment = e.IsInstallment,
                                   Periods = e.Periods,
                                   Names = s.Names,
-                                  PayAmount = (double)e.Price / (e.Periods == 0 ? 1 : e.Periods) / (s.Count + 1) * (e.PayerId == model.AId ? -1 : 1)
+                                  PayAmount = (double)e.Price / (e.Periods == 0 ? 1 : e.Periods) / (s.Count + 1) * (e.PayerId == model.AId ? -1 : 1),
+                                  IsAlways = e.IsAlways,
+                                  Creator= e.Creator
                               }).ToList());
 
             return details;
+        }
+
+        public GetExpenditureResponseData GetExpenditure(int id)
+        {
+            return db.Expenditure.Where(i => i.Id == id).Select(i => new GetExpenditureResponseData
+            {
+                Id = i.Id,
+                ExpenseDate = i.ExpenseDate,
+                IsAlways = i.IsAlways,
+                IsInstallment = i.IsInstallment,
+                Item = i.Item,
+                Price = i.Price,
+                PayerId = i.Payer,
+                Periods = i.Periods,
+                ShareIds = db.ExpenditureShare.Where(j => j.ExpenditureId == id).Select(j => j.AccountId).ToList(),
+            }).Single();
         }
 
         public void AddExpenditure(AddExpenditureRequest request)
@@ -116,7 +137,7 @@ namespace JTtool.Services
             db.ExpenditureShare.AddRange(expenditureShare);
             db.SaveChanges();
         }
-        public void UpdateExpenditure(UpdateExpenditureRequest request)
+        public void UpdateExpenditure(UpdateExpenditureRequest request, short loggedInUserId)
         {
             // 取得要修改的支出項目
             Expenditure expenditure = db.Expenditure.FirstOrDefault(e => e.Id == request.ExpenditureId);
@@ -124,6 +145,10 @@ namespace JTtool.Services
             {
                 // 支出項目不存在，可能需要採取相應的錯誤處理措施
                 return;
+            }
+            if (expenditure.Creator != loggedInUserId)
+            {
+                throw new Exception("不可刪除他人建立之資料");
             }
 
             // 更新支出項目的屬性
@@ -154,7 +179,7 @@ namespace JTtool.Services
             // 儲存變更
             db.SaveChanges();
         }
-        public void DeleteExpenditure(DeleteExpenditureRequest request)
+        public void DeleteExpenditure(DeleteExpenditureRequest request, short loggedInUserId)
         {
             // 取得要刪除的支出項目
             Expenditure expenditure = db.Expenditure.FirstOrDefault(e => e.Id == request.ExpenditureId);
@@ -162,6 +187,10 @@ namespace JTtool.Services
             {
                 // 支出項目不存在，可能需要採取相應的錯誤處理措施
                 return;
+            }
+            if (expenditure.Creator != loggedInUserId)
+            {
+                throw new Exception("不可刪除他人建立之資料");
             }
 
             // 刪除支出項目分享關係s

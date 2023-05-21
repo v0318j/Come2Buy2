@@ -19,19 +19,18 @@ namespace JTtool.Services
             {
                 Id = i.Id,
                 LoginId = i.LoginId,
-                Hash = i.Hash,
-                Salt = i.Salt,
+                Password= i.Password,
                 Name = i.Name
             })
             .Single();
 
-        public IEnumerable<AccountResponse> GetRentUsersExceptLoggedIn(short loggedInUserId)
+        public IEnumerable<AccountModel> GetRentUsers()
         {
             IEnumerable<Account> rentUsers = db.Account
-                .Where(i => i.AccountGroupId == EnumType.AccountGroup.Rent.ToString() && i.Id != loggedInUserId)
+                .Where(i => i.AccountGroupId == EnumType.AccountGroup.Rent.ToString())
                 .ToList();
 
-            return rentUsers.Select(i => new AccountResponse
+            return rentUsers.Select(i => new AccountModel
             {
                 Id = i.Id,
                 LoginId = i.LoginId,

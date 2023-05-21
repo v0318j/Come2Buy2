@@ -9,8 +9,8 @@ namespace JTtool.Models.Entity
     {
         public short Id { get; set; }
         public string LoginId { get; set; }
-        public string Hash { get; set; }
-        public string Salt { get; set; }
+        public string Password { get; set; }
+        public string AccountGroupId { get; set; }
         public string Name { get; set; }
     }
 }

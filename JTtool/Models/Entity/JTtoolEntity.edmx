@@ -11,8 +11,7 @@
           </Key>
           <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LoginId" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="Salt" Type="varchar" MaxLength="2000" Nullable="false" />
-          <Property Name="Hash" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="64" Nullable="false" />
           <Property Name="AccountGroupId" Type="nvarchar" MaxLength="10" />
           <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Creator" Type="smallint" Nullable="false" />
@@ -245,8 +244,7 @@
           </Key>
           <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LoginId" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Salt" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="Hash" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
           <Property Name="AccountGroupId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Creator" Type="Int16" Nullable="false" />
@@ -422,8 +420,7 @@
                 <ScalarProperty Name="Creator" ColumnName="Creator" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="AccountGroupId" ColumnName="AccountGroupId" />
-                <ScalarProperty Name="Hash" ColumnName="Hash" />
-                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="LoginId" ColumnName="LoginId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

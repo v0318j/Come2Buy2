@@ -87,34 +87,38 @@
         </div>
     </div>
 </div>
-<button type="button" class="btn btn-primary fixed-bottom-right" data-bs-toggle="modal" data-bs-target="#addExpenditureModal">
+<button type="button" class="btn btn-success fixed-bottom-right" data-bs-toggle="modal" data-bs-target="#ExpenditureModal">
     新增
 </button>
 
-<!-- 新增对话框 -->
-<div class="modal fade" id="addExpenditureModal" tabindex="-1" aria-labelledby="addExpenditureModalLabel" aria-hidden="true">
+<div class="modal fade" id="ExpenditureModal" tabindex="-1" aria-labelledby="ExpenditureModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addExpenditureModalLabel">新增支出</h5>
+                <h5 class="modal-title" id="ExpenditureModalLabel">支出</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
             </div>
             <div class="modal-body">
+                <input type="hidden" id="expenditureId"/>
                 <div class="mb-3">
                     <label for="payer" class="form-label">付款者</label>
-                    <input type="text" class="form-control" id="payer">
+                    <div id="payer" class="row"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="shareIds" class="form-label">分攤者</label>
+                    <div id="shareIds" class="row"></div>
                 </div>
                 <div class="mb-3">
                     <label for="expenseDate" class="form-label">付款日期</label>
-                    <input type="date" class="form-control" id="expenseDate">
+                    <input type="text" class="form-control" id="expenseDate">
                 </div>
                 <div class="mb-3">
-                    <label for="item" class="form-label">東西</label>
+                    <label for="item" class="form-label">支出項目</label>
                     <input type="text" class="form-control" id="item">
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">價格</label>
-                    <input type="text" class="form-control" id="price">
+                    <input type="number" class="form-control" id="price">
                 </div>
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" value="1" id="isInstallment">
@@ -122,25 +126,17 @@
                 </div>
                 <div class="mb-3">
                     <label for="periods" class="form-label">分期期數</label>
-                    <input type="number" class="form-control" id="periods">
+                    <input type="number" class="form-control" id="periods" value="0">
                 </div>
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" value="1" id="isAlways">
                     <label class="form-check-label" for="isAlways">是否永遠付款</label>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">新增</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="saveBtn">儲存</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                </div>
             </div>
-        </div>
     </div>
 </div>
-
-
-
-
-
-
-
-

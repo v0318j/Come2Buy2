@@ -5,7 +5,11 @@ using System.Web;
 
 namespace JTtool.Models.Rent
 {
-    public class GetRentDetailResponse : BaseResponse
+    public class GetRentDetailResponse : BaseResponse<GetRentDetailResponseData>
+    {
+    }
+
+    public class GetRentDetailResponseData
     {
         public short Payable { get; set; }
         public short Paid { get; set; }

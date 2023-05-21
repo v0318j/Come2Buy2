@@ -120,6 +120,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Filter\CheckLogin.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\RentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -161,18 +162,19 @@
     <Compile Include="Models\Home\LoginRequest.cs" />
     <Compile Include="Models\Home\LoginResponse.cs" />
     <Compile Include="Models\Rent\DeleteExpenditureRequest.cs" />
+    <Compile Include="Models\Rent\GetExpenditureResponse.cs" />
     <Compile Include="Models\Rent\UpdateExpenditureRequest.cs" />
     <Compile Include="Models\Rent\GetRentDetailModel.cs" />
     <Compile Include="Models\Rent\AddExpenditureRequest.cs" />
     <Compile Include="Models\Rent\GetRentDetailResponse.cs" />
     <Compile Include="Models\Rent\GetRentDetailRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AsymmetricEncryptionHelper.cs" />
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\EnumType.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\RentService.cs" />
     <Compile Include="Services\HomeService.cs" />
+    <Compile Include="Services\Util\PasswordHasher.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\all.css" />

@@ -225,12 +225,13 @@ function GetExpenditure() {
 }
 
 function DeleteExpenditure() {
+    var expenditureId = $(this).data('expenditure-id');
     checkAlert('刪除', function () {
         $.ajax({
             url: '/Rent/DeleteExpenditure',
             method: 'POST',
             data: {
-                ExpenditureId: $(this).data('expenditure-id')
+                ExpenditureId: expenditureId
             },
             success: function (result) {
                 if (result.Success) {

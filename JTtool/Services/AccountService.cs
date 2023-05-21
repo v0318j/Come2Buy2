@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity.SqlServer;
 using System.Diagnostics;
 using System.Linq;
+using System.Web.UI.WebControls;
 using Antlr.Runtime.Tree;
 using JTtool.Models.Entity;
 using JTtool.Models.Home;
@@ -45,6 +46,25 @@ namespace JTtool.Services
 
             account.Password = newPassword;
 
+            db.SaveChanges();
+        }
+
+        public void AddAccount(AddAccountRequest request)
+        {
+            if(db.Account.Any(i => i.LoginId == request.LoginId))
+            {
+                throw new Exception("帳號已存在");
+            }
+            Account account = new Account
+            {
+                LoginId = request.LoginId,
+                AccountGroupId = EnumType.AccountGroup.Rent.ToString(),
+                Name = request.Name,
+                Password = request.Password,
+                Creator = db.Account.Single(i => i.LoginId == "System").Id,
+                CreateDatetime= DateTime.UtcNow
+            };
+            db.Account.Add(account);
             db.SaveChanges();
         }
     }

@@ -1,4 +1,5 @@
-﻿using JTtool.Models.Entity;
+﻿using JTtool.Models;
+using JTtool.Models.Entity;
 using JTtool.Models.Home;
 using JTtool.Services;
 using JTtool.Services.Util;
@@ -12,6 +13,23 @@ namespace JTtool.Controllers
     {
         AccountService AccountService = new AccountService();
         PasswordHasher PasswordHasher = new PasswordHasher();
+
+        [HttpPost]
+        public ActionResult AddAccount(AddAccountRequest request)
+        {
+            BaseResponse<object> response = new BaseResponse<object>();
+            try
+            {
+                request.Password = PasswordHasher.HashPassword(request.Password);
+                AccountService.AddAccount(request);
+            }
+            catch
+            {
+                response.Success = false;
+                response.Message = "註冊失敗";
+            }
+            return Json(response);
+        }
 
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordRequest request)
@@ -38,7 +56,7 @@ namespace JTtool.Controllers
                     account.Password = newHashedPassword;
 
                     // 執行必要的帳號更新操作（例如，保存至資料庫）
-                    AccountService.ChangePassword(LoggedInUserId, newHashedPassword);
+                    AccountService.ChangePassword(LoggedInUserId.Value, newHashedPassword);
                 }
             }
             catch

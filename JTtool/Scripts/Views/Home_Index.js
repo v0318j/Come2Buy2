@@ -1,6 +1,11 @@
 ﻿$(function () {
-    $('#Login').click(function () {
-        Login()
+    $('#Login').click(Login);
+    $('#registerbtn').click(Register);
+    $('#LoginFrom').submit(function () {
+        $('#Login').click()
+    });
+    $('#RegisterFrom').submit(function () {
+        $('#registerbtn').click()
     });
 });
 
@@ -21,6 +26,32 @@ function Login() {
         },
         error: function () {
 
+        }
+    });
+}
+
+function Register() {
+    $.ajax({
+        url: '/Account/AddAccount',
+        method: 'POST',
+        data: {
+            LoginId: $('#registerLoginId').val(),
+            Password: $('#registerPassword').val(),
+            ConfirmPassword: $('#registerConfirmPassword').val(),
+            Name: $('#registerName').val()
+        },
+        success: function (result) {
+            if (result.Success) {
+                // 註冊成功，關閉 modal
+                successAlert('註冊成功');
+                $('#closeRegisterModal').click();
+            } else {
+                // 註冊失敗，顯示錯誤訊息
+                errorAlert(result.Message);
+            }
+        },
+        error: function () {
+            errorAlert('請求失敗');
         }
     });
 }

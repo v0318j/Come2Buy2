@@ -13,13 +13,13 @@
 
 <div class="row">
     <div class="col-12 col-md-7 col-lg-5 position-absolute top-50 start-50 translate-middle">
-        <form id="LoginForm">
+        <form id="LoginFrom">
             <label for="LoginId" class="form-label">帳號</label>
             <input type="text" class="form-control" id="LoginId" aria-describedby="emailHelp">
             <label for="Password" class="form-label mt-4">密碼</label>
             <input type="password" class="form-control" id="Password" aria-describedby="emailHelp">
             <button type="submit" class="btn btn-outline-info mt-4" id="Login">登入</button>
-            <button type="button" class="btn btn-outline-info mt-4 float-end" id="RegisterButton">註冊</button>
+            <button type="button" class="btn btn-outline-info mt-4 float-end" data-bs-toggle="modal" data-bs-target="#registerModal">註冊</button>
         </form>
     </div>
 </div>
@@ -33,85 +33,29 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="RegisterForm">
+                <form id="RegisterFrom">
                     <div class="mb-3">
                         <label for="RegisterAccount" class="form-label">帳號</label>
-                        <input type="text" class="form-control" id="RegisterAccount">
+                        <input type="text" class="form-control" id="registerLoginId">
                     </div>
                     <div class="mb-3">
                         <label for="RegisterPassword" class="form-label">密碼</label>
-                        <input type="password" class="form-control" id="RegisterPassword">
+                        <input type="password" class="form-control" id="registerPassword">
                     </div>
                     <div class="mb-3">
                         <label for="ConfirmPassword" class="form-label">再次確認密碼</label>
-                        <input type="password" class="form-control" id="ConfirmPassword">
+                        <input type="password" class="form-control" id="registerConfirmPassword">
+                    </div>
+                    <div class="mb-3">
+                        <label for="RegisterAccount" class="form-label">姓名</label>
+                        <input type="text" class="form-control" id="registerName">
                     </div>
                     <div class="modal-footer">
-
-                        <button type="submit" class="btn btn-primary">註冊</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary" id="registerbtn">註冊</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeRegisterModal">取消</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    // 使用者按下 Enter 鍵時觸發登入操作
-    document.getElementById("LoginForm").addEventListener("submit", function (event) {
-        event.preventDefault(); // 防止表單提交
-        login(); // 呼叫登入函式
-    });
-
-    // 登入函式
-    function login() {
-        var loginId = document.getElementById("LoginId").value;
-        var password = document.getElementById("Password").value;
-
-        // 執行登入操作
-        // 在這裡可以使用 JavaScript 或 Ajax 進行登入驗證
-
-        // 清空輸入框
-        document.getElementById("LoginId").value = "";
-        document.getElementById("Password").value = "";
-    }
-
-    // 註冊按鈕點擊事件
-    document.getElementById("RegisterButton").addEventListener("click", function () {
-        // 顯示註冊對話框
-        $('#registerModal').modal('show');
-    });
-
-    // 取消按鈕點擊事件
-    document.getElementById("registerModal").addEventListener("click", function (event) {
-        if (event.target === document.getElementById("registerModal")) {
-            // 點擊模態框背景時關閉模態框
-            $('#registerModal').modal('hide');
-        }
-    });
-
-    // 註冊表單提交事件
-    document.getElementById("RegisterForm").addEventListener("submit", function (event) {
-        event.preventDefault(); // 防止表單提交
-        register(); // 呼叫註冊函式
-    });
-
-    // 註冊函式
-    function register() {
-        var registerAccount = document.getElementById("RegisterAccount").value;
-        var registerPassword = document.getElementById("RegisterPassword").value;
-        var confirmPassword = document.getElementById("ConfirmPassword").value;
-
-        // 執行註冊操作
-        // 在這裡可以使用 JavaScript 或 Ajax 進行註冊驗證
-
-        // 清空輸入框
-        document.getElementById("RegisterAccount").value = "";
-        document.getElementById("RegisterPassword").value = "";
-        document.getElementById("ConfirmPassword").value = "";
-
-        // 關閉註冊對話框
-        $('#registerModal').modal('hide');
-    }
-</script>

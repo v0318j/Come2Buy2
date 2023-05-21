@@ -119,6 +119,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Filter\CheckLogin.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\RentController.cs" />
@@ -127,6 +128,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\AccountResponse.cs" />
+    <Compile Include="Models\Account\ChangePasswordRequest.cs" />
+    <Compile Include="Models\Account\ChangePasswordResponse.cs" />
+    <Compile Include="Models\Account\AddAccountRequest.cs" />
     <Compile Include="Models\BaseResponse.cs" />
     <Compile Include="Models\Entity\Account.cs">
       <DependentUpon>JTtoolEntity.tt</DependentUpon>

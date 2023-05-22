@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web.UI.WebControls;
 using Antlr.Runtime.Tree;
+using JTtool.Models;
 using JTtool.Models.Entity;
 using JTtool.Models.Home;
 using JTtool.Models.Rent;
@@ -53,7 +54,7 @@ namespace JTtool.Services
         {
             if(db.Account.Any(i => i.LoginId == request.LoginId))
             {
-                throw new Exception("帳號已存在");
+                throw new CustomException("帳號已存在");
             }
             Account account = new Account
             {

@@ -4,6 +4,7 @@ using System.Data.Entity.SqlServer;
 using System.Diagnostics;
 using System.Linq;
 using Antlr.Runtime.Tree;
+using JTtool.Models;
 using JTtool.Models.Entity;
 using JTtool.Models.Home;
 using JTtool.Models.Rent;
@@ -12,7 +13,7 @@ namespace JTtool.Services
 {
     public class RentService : BaseService
     {
-        public List<RentDetailModel> GetRentDetail(GetRentDetailModel model)
+        public List<RentDetailModel> GetRentDetail(GetRentDetailModel model, short? loggedInUserId)
         {
             int lastyear = 0, lastmonth = 0;
             if (model.Month == 1)
@@ -66,7 +67,7 @@ namespace JTtool.Services
                                          })
                                          .ToList()
                                          .GroupBy(i => i.Id)
-                                         .Where(i => i.Where(j => j.payerId == model.AId).Count() != 0 || i.Where(j => j.shareId == model.AId).Count() != 0)
+                                         .Where(i => i.Where(j => j.payerId == loggedInUserId).Count() != 0 || i.Where(j => j.shareId == loggedInUserId).Count() != 0)
                                          .Select(i => new
                                          {
                                              Id = i.Key,
@@ -84,7 +85,7 @@ namespace JTtool.Services
                                   IsInstallment = e.IsInstallment,
                                   Periods = e.Periods,
                                   Names = s.Names,
-                                  PayAmount = (double)e.Price / (e.Periods == 0 ? 1 : e.Periods) / (s.Count + 1) * (e.PayerId == model.AId ? -1 : 1),
+                                  PayAmount = (double)e.Price / (e.Periods == 0 ? 1 : e.Periods) / (s.Count + 1) * (e.PayerId == loggedInUserId ? -1 : 1),
                                   IsAlways = e.IsAlways,
                                   Creator= e.Creator
                               }).ToList());
@@ -108,7 +109,7 @@ namespace JTtool.Services
             }).Single();
         }
 
-        public void AddExpenditure(AddExpenditureRequest request)
+        public void AddExpenditure(AddExpenditureRequest request, short? loggedInUserId)
         {
             Expenditure expenditure = new Expenditure
             {
@@ -119,7 +120,7 @@ namespace JTtool.Services
                 IsInstallment = request.IsInstallment,
                 Periods = request.Periods,
                 IsAlways = request.IsAlways,
-                Creator = request.AId,
+                Creator = loggedInUserId.Value,
                 CreateDatetime = DateTime.Now
             };
             db.Expenditure.Add(expenditure);
@@ -143,12 +144,7 @@ namespace JTtool.Services
             Expenditure expenditure = db.Expenditure.FirstOrDefault(e => e.Id == request.ExpenditureId);
             if (expenditure == null)
             {
-                // 支出項目不存在，可能需要採取相應的錯誤處理措施
-                return;
-            }
-            if (expenditure.Creator != loggedInUserId)
-            {
-                throw new Exception("不可刪除他人建立之資料");
+                throw new CustomException("此支出項目不存在");
             }
 
             // 更新支出項目的屬性
@@ -159,6 +155,8 @@ namespace JTtool.Services
             expenditure.IsInstallment = request.IsInstallment;
             expenditure.Periods = request.Periods;
             expenditure.IsAlways = request.IsAlways;
+            expenditure.Editor = loggedInUserId.Value;
+            expenditure.EditDatetime = DateTime.Now;
 
             // 刪除原有的支出項目分享關係
             List<ExpenditureShare> existingShares = db.ExpenditureShare.Where(es => es.ExpenditureId == request.ExpenditureId).ToList();
@@ -185,15 +183,10 @@ namespace JTtool.Services
             Expenditure expenditure = db.Expenditure.FirstOrDefault(e => e.Id == request.ExpenditureId);
             if (expenditure == null)
             {
-                // 支出項目不存在，可能需要採取相應的錯誤處理措施
-                return;
-            }
-            if (expenditure.Creator != loggedInUserId)
-            {
-                throw new Exception("不可刪除他人建立之資料");
+                throw new CustomException("此支出項目不存在");
             }
 
-            // 刪除支出項目分享關係s
+            // 刪除支出項目分享關係
             List<ExpenditureShare> expenditureShares = db.ExpenditureShare.Where(es => es.ExpenditureId == request.ExpenditureId).ToList();
             db.ExpenditureShare.RemoveRange(expenditureShares);
 

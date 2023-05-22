@@ -16,6 +16,5 @@ namespace JTtool.Models.Rent
         public byte Periods { get; set; }
         public bool IsAlways { get; set; }
         public List<short> ShareIds { get; set; }
-        public short AId { get; set; }
     }
 }

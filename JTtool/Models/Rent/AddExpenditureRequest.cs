@@ -24,6 +24,5 @@ namespace JTtool.Models.Rent
         public byte Periods { get; set; }
         [Required(ErrorMessage = "請選擇是否永遠付款")]
         public bool IsAlways { get; set; }
-        public short AId { get; set; }
     }
 }

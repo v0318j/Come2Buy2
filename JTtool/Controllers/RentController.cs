@@ -17,13 +17,8 @@ namespace JTtool.Controllers
     {
         AccountService AccountService = new AccountService();
         RentService RentService = new RentService();
-        public ActionResult Index(short? AId)
+        public ActionResult Index()
         {
-            if (AId == null || AId != LoggedInUserId)
-            {
-                return Redirect("/Home/Index");
-            }
-            ViewBag.AId = AId;
             return View();
         }
 
@@ -38,10 +33,9 @@ namespace JTtool.Controllers
             {
                 List<RentDetailModel> detail = RentService.GetRentDetail(new GetRentDetailModel
                 {
-                    AId = LoggedInUserId,
                     Year = yymm.Year,
                     Month = yymm.Month
-                });
+                }, LoggedInUserId);
 
                 response.Data.Rent = detail.Count > 1 ? Math.Round(detail.Select(i => i.PayAmount).Aggregate((i, j) => i + j)) :
                     detail.Count == 1 ? Math.Round(detail[0].PayAmount) : 0;
@@ -57,7 +51,7 @@ namespace JTtool.Controllers
                     Names = i.Names,
                     PayAmount = i.PayAmount.ToString("$#,##0.00"),
                     IsAlways = i.IsAlways,
-                    Creator= i.Creator
+                    Creator = i.Creator
                 }).ToList();
 
                 foreach (RentDetailModel d in detail)
@@ -76,10 +70,16 @@ namespace JTtool.Controllers
         [HttpGet]
         public JsonResult GetExpenditure(int id)
         {
-            GetExpenditureResponse response = new GetExpenditureResponse
+            GetExpenditureResponse response = new GetExpenditureResponse();
+            try
             {
-                Data = RentService.GetExpenditure(id)
-            };
+                response.Data = RentService.GetExpenditure(id);
+            }
+            catch
+            {
+                response.Success = false;
+                response.Message = "查詢失敗";
+            }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
@@ -87,14 +87,15 @@ namespace JTtool.Controllers
         public JsonResult AddExpenditure(AddExpenditureRequest request)
         {
             BaseResponse<object> response = new BaseResponse<object>();
-            if (request.ShareIds.Any(i => i == request.PayerId))
-            {
-                response.Success = false;
-                response.Message = "分攤者不可包含付款者";
-            }
             try
             {
-                RentService.AddExpenditure(request);
+                CheckExpenditure(request.PayerId, request.ShareIds);
+                RentService.AddExpenditure(request, LoggedInUserId);
+            }
+            catch (CustomException e)
+            {
+                response.Success = false;
+                response.Message = e.Message;
             }
             catch
             {
@@ -108,14 +109,15 @@ namespace JTtool.Controllers
         public JsonResult UpdateExpenditure(UpdateExpenditureRequest request)
         {
             BaseResponse<object> response = new BaseResponse<object>();
-            if (request.ShareIds.Any(i => i == request.PayerId))
-            {
-                response.Success = false;
-                response.Message = "分攤者不可包含付款者";
-            }
             try
             {
+                CheckExpenditure(request.PayerId, request.ShareIds);
                 RentService.UpdateExpenditure(request, LoggedInUserId);
+            }
+            catch (CustomException e)
+            {
+                response.Success = false;
+                response.Message = e.Message;
             }
             catch
             {
@@ -133,6 +135,11 @@ namespace JTtool.Controllers
             {
                 RentService.DeleteExpenditure(request, LoggedInUserId);
             }
+            catch (CustomException e)
+            {
+                response.Success = false;
+                response.Message = e.Message;
+            }
             catch
             {
                 response.Success = false;
@@ -144,12 +151,30 @@ namespace JTtool.Controllers
         [HttpGet]
         public ActionResult GetRentUsers()
         {
-            IEnumerable<AccountModel> rentUsers = AccountService.GetRentUsers();
-
-            return Json(new AccountResponse
+            AccountResponse response = new AccountResponse();
+            try
             {
-                Data = rentUsers
-            }, JsonRequestBehavior.AllowGet);
+                response.Data = AccountService.GetRentUsers();
+            }
+            catch
+            {
+                response.Success = false;
+                response.Message = "查詢失敗";
+            }
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        private void CheckExpenditure(short PayerId, List<short> ShareIds)
+        {
+            if (ShareIds.Any(i => i == PayerId))
+            {
+                throw new CustomException("分攤者不可包含付款者");
+            }
+            if (!ShareIds.Any(i => i == LoggedInUserId) && PayerId != LoggedInUserId)
+            {
+                throw new CustomException("不可新增與自己無關的資料");
+            }
         }
     }
 }

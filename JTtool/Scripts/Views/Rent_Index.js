@@ -45,8 +45,7 @@ function GetRent() {
         url: '/Rent/GetRentDetail',
         method: 'POST',
         data: {
-            AId: $('#AId').val(),
-            YYMM: $('#YYMM').val(),
+            YYMM: $('#YYMM').val()
         },
         success: function (resault) {
             if (resault.Success) {
@@ -90,11 +89,9 @@ function GenerateRentAccordion(RentDetail) {
         Accordion += '</div>';
         Accordion += '<div class="col-3 col-sm-2">';
         Accordion += '<div class="d-flex flex-column justify-content-center h-100">';
-        if (item.Creator == $('#AId').val()) {
-            Accordion += '<button type="button" class="btn btn-sm btn-primary mb-2 btn-update" data-bs-toggle="modal" data-bs-target="#ExpenditureModal" data-expenditure-id="' + item.ExpenditureId + '">修改</button>';
-            if (!item.IsAlways) {
-                Accordion += '<button type="button" class="btn btn-sm btn-danger btn-delete" data-expenditure-id="' + item.ExpenditureId + '">刪除</button>';
-            }
+        Accordion += '<button type="button" class="btn btn-sm btn-primary mb-2 btn-update" data-bs-toggle="modal" data-bs-target="#ExpenditureModal" data-expenditure-id="' + item.ExpenditureId + '">修改</button>';
+        if (!item.IsAlways) {
+            Accordion += '<button type="button" class="btn btn-sm btn-danger btn-delete" data-expenditure-id="' + item.ExpenditureId + '">刪除</button>';
         }
         Accordion += '</div>';
         Accordion += '</div>';
@@ -153,8 +150,7 @@ function saveExpenditure() {
         ExpenseDate: $('#expenseDate').val(),
         IsInstallment: $('#isInstallment').prop('checked'),
         Periods: parseInt($('#periods').val()),
-        IsAlways: $('#isAlways').prop('checked'),
-        AId: $('#AId').val()
+        IsAlways: $('#isAlways').prop('checked')
     };
 
     // 發送 AJAX POST 請求

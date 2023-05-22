@@ -11,8 +11,6 @@ namespace JTtool.Models.Rent
 
     public class GetRentDetailResponseData
     {
-        public short Payable { get; set; }
-        public short Paid { get; set; }
         public List<RentDetailVeiwModel> RentDetail { get; set; }
         public double Rent { get; set; }
     }

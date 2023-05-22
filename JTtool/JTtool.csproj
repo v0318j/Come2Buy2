@@ -131,6 +131,7 @@
     <Compile Include="Models\Account\ChangePasswordRequest.cs" />
     <Compile Include="Models\Account\ChangePasswordResponse.cs" />
     <Compile Include="Models\Account\AddAccountRequest.cs" />
+    <Compile Include="Models\CustomException.cs" />
     <Compile Include="Models\BaseResponse.cs" />
     <Compile Include="Models\Entity\Account.cs">
       <DependentUpon>JTtoolEntity.tt</DependentUpon>
@@ -177,7 +178,6 @@
     <Compile Include="Services\EnumType.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\RentService.cs" />
-    <Compile Include="Services\HomeService.cs" />
     <Compile Include="Services\Util\PasswordHasher.cs" />
   </ItemGroup>
   <ItemGroup>

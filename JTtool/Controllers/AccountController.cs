@@ -1,4 +1,5 @@
-﻿using JTtool.Models;
+﻿using JTtool.Controllers.Filter;
+using JTtool.Models;
 using JTtool.Models.Entity;
 using JTtool.Models.Home;
 using JTtool.Services;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 
 namespace JTtool.Controllers
 {
+    [CheckLogin]
     public class AccountController : BaseController
     {
         AccountService AccountService = new AccountService();

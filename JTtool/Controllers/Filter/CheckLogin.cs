@@ -11,7 +11,7 @@ namespace JTtool.Controllers.Filter
             HttpSessionStateBase session = filterContext.HttpContext.Session;
             if(session[EnumType.Session.LoginAccount.ToString()] == null)
             {
-                //filterContext.Result = new RedirectResult("Home");
+                filterContext.Result = new RedirectResult("/Home");
                 return;
             }
         }

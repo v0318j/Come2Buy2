@@ -84,7 +84,7 @@ namespace JTtool.Controllers
             BaseResponse<object> response = new BaseResponse<object>();
             try
             {
-                CheckExpenditure(request.PayerId, request.ShareIds);
+                CheckExpenditure(request);
                 RentService.AddExpenditure(request, LoggedInUserId);
             }
             catch (CustomException e)
@@ -106,7 +106,7 @@ namespace JTtool.Controllers
             BaseResponse<object> response = new BaseResponse<object>();
             try
             {
-                CheckExpenditure(request.PayerId, request.ShareIds);
+                CheckExpenditure(request);
                 RentService.UpdateExpenditure(request, LoggedInUserId);
             }
             catch (CustomException e)
@@ -160,8 +160,13 @@ namespace JTtool.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-        private void CheckExpenditure(short PayerId, List<short> ShareIds)
+        private void CheckExpenditure(object requect)
         {
+            List<short> ShareIds = ((List<short>)requect.GetType().GetProperty("ShareIds")?.GetValue(requect)) ?? new List<short> { LoggedInUserId.Value };
+            short PayerId = ((short?)requect.GetType().GetProperty("PayerId")?.GetValue(requect)) ?? -1;
+            int Price = ((int?)requect.GetType().GetProperty("Price")?.GetValue(requect)) ?? 0;
+            byte? Periods = (byte?)requect.GetType().GetProperty("Periods")?.GetValue(requect);
+            bool? IsInstallment = (bool?)requect.GetType().GetProperty("IsInstallment")?.GetValue(requect);
             if (ShareIds.Any(i => i == PayerId))
             {
                 throw new CustomException("分攤者不可包含付款者");
@@ -169,6 +174,26 @@ namespace JTtool.Controllers
             if (!ShareIds.Any(i => i == LoggedInUserId) && PayerId != LoggedInUserId)
             {
                 throw new CustomException("不可新增與自己無關的資料");
+            }
+            if (Price <= 0)
+            {
+                throw new CustomException("金額需大於零");
+            }
+            if (Periods == null)
+            {
+                throw new CustomException("請輸入期數");
+            }
+            if (IsInstallment == null)
+            {
+                throw new CustomException("請勾選是否分期");
+            }
+            if (IsInstallment.Value && Periods.Value <= 1)
+            {
+                throw new CustomException("分期支出的分期期數需大於1");
+            }
+            if (!IsInstallment.Value && Periods.Value != 0)
+            {
+                throw new CustomException("非分期支出，分期期數請固定輸入0");
             }
         }
     }

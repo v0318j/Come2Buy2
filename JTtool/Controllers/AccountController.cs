@@ -10,7 +10,6 @@ using System.Web.Mvc;
 
 namespace JTtool.Controllers
 {
-    [CheckLogin]
     public class AccountController : BaseController
     {
         AccountService AccountService = new AccountService();
@@ -42,6 +41,7 @@ namespace JTtool.Controllers
             return Json(response);
         }
 
+        [CheckLogin]
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordRequest request)
         {
@@ -77,6 +77,7 @@ namespace JTtool.Controllers
             return Json(response);
         }
 
+        [CheckLogin]
         [HttpPost]
         public ActionResult Logout()
         {

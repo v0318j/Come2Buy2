@@ -162,8 +162,8 @@ namespace JTtool.Controllers
 
         private void CheckExpenditure(object requect)
         {
-            List<short> ShareIds = ((List<short>)requect.GetType().GetProperty("ShareIds")?.GetValue(requect)) ?? new List<short> { LoggedInUserId.Value };
             short PayerId = ((short?)requect.GetType().GetProperty("PayerId")?.GetValue(requect)) ?? -1;
+            List<short> ShareIds = ((List<short>)requect.GetType().GetProperty("ShareIds")?.GetValue(requect)) ?? new List<short> { PayerId };
             int Price = ((int?)requect.GetType().GetProperty("Price")?.GetValue(requect)) ?? 0;
             byte? Periods = (byte?)requect.GetType().GetProperty("Periods")?.GetValue(requect);
             bool? IsInstallment = (bool?)requect.GetType().GetProperty("IsInstallment")?.GetValue(requect);

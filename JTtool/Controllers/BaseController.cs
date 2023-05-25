@@ -42,7 +42,7 @@ namespace JTtool.Controllers
 
         private string GetErrorMessageFromModelState(ModelStateDictionary modelState)
         {
-            var errorMessage = string.Join("\n", modelState.Values
+            var errorMessage = string.Join("<br>", modelState.Values
                 .SelectMany(v => v.Errors)
                 .Select(e => e.ErrorMessage));
             return errorMessage;

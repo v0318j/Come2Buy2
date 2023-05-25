@@ -1,6 +1,14 @@
 ﻿$(function () {
     $('#Login').click(Login);
     $('#registerbtn').click(Register);
+
+    $('#registerModal').on('hidden.bs.modal', function () {
+        // 清除所有輸入欄位的值
+        $('#registerLoginId').val('');
+        $('#registerPassword').val('');
+        $('#registerConfirmPassword').val('');
+        $('#registerName').val('');
+    });
 });
 
 function Login() {

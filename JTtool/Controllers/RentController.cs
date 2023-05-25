@@ -53,11 +53,6 @@ namespace JTtool.Controllers
                     IsAlways = i.IsAlways,
                     Creator = i.Creator
                 }).ToList();
-
-                foreach (RentDetailModel d in detail)
-                {
-                    d.PayAmount = Math.Round(d.PayAmount, 2);
-                }
             }
             else
             {

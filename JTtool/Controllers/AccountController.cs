@@ -22,8 +22,17 @@ namespace JTtool.Controllers
             BaseResponse<object> response = new BaseResponse<object>();
             try
             {
+                if (request.Password != request.ConfirmPassword)
+                {
+                    throw new CustomException("密碼需輸入一致");
+                }
                 request.Password = PasswordHasher.HashPassword(request.Password);
                 AccountService.AddAccount(request);
+            }
+            catch (CustomException e)
+            {
+                response.Success = false;
+                response.Message = e.Message;
             }
             catch
             {
@@ -39,27 +48,25 @@ namespace JTtool.Controllers
             ChangePasswordResponse response = new ChangePasswordResponse();
             try
             {
-                // 從 Session 中取得目前已登入的帳號
                 AccountModel account = (AccountModel)Session[EnumType.Session.LoginAccount.ToString()];
 
-                // 在允許密碼變更之前，先驗證目前的密碼
-                PasswordHasher.VerifyPassword(request.CurrentPassword, account.Password);
                 if (request.NewPassword != request.CheckPassword)
                 {
-                    response.Success = false;
-                    response.Message = "新密碼需輸入一致";
+                    throw new CustomException("密碼需輸入一致");
                 }
                 if (PasswordHasher.VerifyPassword(request.CurrentPassword, account.Password))
                 {
-                    // 產生新的雜湊密碼
                     string newHashedPassword = PasswordHasher.HashPassword(request.NewPassword);
 
-                    // 更新帳號的密碼
                     account.Password = newHashedPassword;
 
-                    // 執行必要的帳號更新操作（例如，保存至資料庫）
                     AccountService.ChangePassword(LoggedInUserId.Value, newHashedPassword);
                 }
+            }
+            catch (CustomException e)
+            {
+                response.Success = false;
+                response.Message = e.Message;
             }
             catch
             {
@@ -68,6 +75,13 @@ namespace JTtool.Controllers
             }
 
             return Json(response);
+        }
+
+        [HttpPost]
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return new RedirectResult("/Home");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JTtool.Models;
+using System;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using static System.Web.Razor.Parser.SyntaxConstants;
@@ -9,19 +10,14 @@ namespace JTtool.Services.Util
     {
         public string HashPassword(string password)
         {
-            // 產生一個隨機的鹽值
             byte[] salt = GenerateSalt();
 
-            // 將鹽值與密碼結合
             byte[] saltedPassword = CombineSaltAndPassword(salt, password);
 
-            // 使用哈希函數計算雜湊值
             byte[] hash = ComputeHash(saltedPassword);
 
-            // 將鹽值和雜湊值合併成最終的密碼
             byte[] hashedPassword = CombineSaltAndHash(salt, hash);
 
-            // 將最終的密碼轉換成Base64字串儲存或傳輸
             string hashedPasswordBase64 = Convert.ToBase64String(hashedPassword);
 
             return hashedPasswordBase64;
@@ -29,24 +25,19 @@ namespace JTtool.Services.Util
 
         public bool VerifyPassword(string password, string hashedPasswordBase64)
         {
-            // 將Base64字串轉換回最終的密碼
             byte[] hashedPassword = Convert.FromBase64String(hashedPasswordBase64);
 
-            // 從密碼中提取鹽值和雜湊值
             byte[] salt = ExtractSalt(hashedPassword);
             byte[] hash = ExtractHash(hashedPassword);
 
-            // 將輸入的密碼結合鹽值
             byte[] saltedPassword = CombineSaltAndPassword(salt, password);
 
-            // 使用相同的哈希函數計算輸入密碼的雜湊值
             byte[] computedHash = ComputeHash(saltedPassword);
 
-            // 比對計算得到的雜湊值和儲存的雜湊值是否相同
             bool passwordMatch = CompareHashes(hash, computedHash);
             if (!passwordMatch)
             {
-                throw new Exception("密碼驗證失敗");
+                throw new CustomException("密碼驗證失敗");
             }
 
             return passwordMatch;

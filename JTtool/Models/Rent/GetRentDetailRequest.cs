@@ -7,6 +7,7 @@ namespace JTtool.Models.Rent
 {
     public class GetRentDetailRequest
     {
+        
         public string YYMM { get; set; }
     }
 }

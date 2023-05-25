@@ -29,14 +29,14 @@ function removeBanner() {
 function errorAlert(text) {
     Swal.fire({
         icon: 'error',
-        text: text,
+        html: text,
     })
 }
 
 function successAlert(text) {
     Swal.fire({
         icon: 'success',
-        text: text,
+        html: text,
     })
 }
 

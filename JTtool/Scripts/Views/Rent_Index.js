@@ -79,8 +79,8 @@ function GenerateRentAccordion(RentDetail) {
         Accordion += '<div class="row">';
         Accordion += '<div class="col-6">付款者：' + item.Payer + '</div>';
         Accordion += '<div class="col-6">總金額：' + item.Price + '</div>';
-        Accordion += '<div class="col-6">付款日期：' + item.ExpenseDate + '</div>';
-        Accordion += '<div class="col-6">分擔人：' + item.Names + '</div>';
+        Accordion += '<div class="col-12 col-sm-6">付款日期：' + item.ExpenseDate + '</div>';
+        Accordion += '<div class="col-12 col-sm-6">分擔人：' + item.Names + '</div>';
         Accordion += '<div class="col-6">是否分期：' + item.IsInstallment + '</div>';
         if (item.IsInstallment == '是') {
             Accordion += '<div class="col-6">期數：' + item.Periods + '</div>';

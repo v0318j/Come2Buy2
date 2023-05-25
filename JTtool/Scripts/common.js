@@ -3,7 +3,7 @@
 });
 
 function removeBanner() {
-    if ($('body > script:last').attr('src') != undefined && $('body > script:last').attr('src').indexOf('http://ads.mgmt.somee.com/') > -1) {
+    if ($('body > script:last').attr('src') != undefined && $('body > script:last').attr('src').indexOf('ads.mgmt.somee.com') > -1) {
         $('body > script:last').remove();
         $('body > center:last').remove();
         var removeBanner = false;
